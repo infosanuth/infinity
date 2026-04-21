@@ -1,10 +1,87 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
+import { Search, User } from 'lucide-react'
+
+const Logo = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="160" height="40" role="img" aria-label="INFINITY">
+    <rect width="320" height="80" rx="12" ry="12" fill="#1E1F5B" />
+    <text x="160" y="55"
+      textAnchor="middle"
+      fontFamily="Arial Black, Helvetica, Impact, sans-serif"
+      fontWeight="900"
+      fontSize="44"
+      letterSpacing="2"
+      fill="#25F08A">INFINITY</text>
+  </svg>
+)
+
+const navLinks = [
+  { label: 'Home', to: '/' },
+  { label: 'Movies', to: '/movies' },
+  { label: 'Theaters', to: '/theaters' },
+  { label: 'Releases', to: '/releases' },
+]
 
 const Navbar = () => {
+  const [searchOpen, setSearchOpen] = useState(false)
+
   return (
-    <div>
-      <h1>Navbar</h1>
-    </div>
+    <nav className="w-full bg-[#1E1F5B] pr-6 py-3 flex items-center justify-between">
+      {/* Column 1 — Logo */}
+      <div className="flex-1 flex items-center">
+        <Link to="/">
+          <Logo />
+        </Link>
+      </div>
+
+      {/* Column 2 — Nav links (centered) */}
+      <ul className="flex gap-8 list-none m-0 p-0">
+        {navLinks.map(({ label, to }) => (
+          <li key={to}>
+            <NavLink
+              to={to}
+              end={to === '/'}
+              className={({ isActive }) =>
+                `text-sm font-semibold tracking-wide transition-colors duration-200 ${
+                  isActive ? 'text-[#25F08A]' : 'text-white hover:text-[#25F08A]'
+                }`
+              }
+            >
+              {label}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+
+      {/* Column 3 — Search & Login */}
+      <div className="flex-1 flex items-center justify-end gap-4">
+        <div className="flex items-center gap-2">
+          {searchOpen && (
+            <input
+              autoFocus
+              type="text"
+              placeholder="Search..."
+              className="bg-white/10 text-white placeholder-white/50 text-sm rounded-full px-4 py-1.5 outline-none border border-white/20 focus:border-[#25F08A] w-48 transition-all duration-200"
+              onKeyDown={e => e.key === 'Escape' && setSearchOpen(false)}
+            />
+          )}
+          <button
+            onClick={() => setSearchOpen(o => !o)}
+            className={`transition-colors duration-200 ${searchOpen ? 'text-[#25F08A]' : 'text-white hover:text-[#25F08A]'}`}
+            aria-label="Search"
+          >
+            <Search size={20} />
+          </button>
+        </div>
+        <Link
+          to="/login"
+          className="text-white hover:text-[#25F08A] transition-colors duration-200"
+          aria-label="Login"
+        >
+          <User size={20} />
+        </Link>
+      </div>
+    </nav>
   )
 }
 
