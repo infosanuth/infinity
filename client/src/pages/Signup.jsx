@@ -2,7 +2,7 @@ import { SignUp } from '@clerk/react'
 
 const Signup = () => {
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4">
+    <div className="fixed inset-0 bg-white flex items-center justify-center overflow-y-auto px-4">
       <SignUp
         routing="path"
         path="/signup"

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Search, Menu, X } from 'lucide-react'
-import { useAuth, UserButton } from '@clerk/react'
+import { Search, Menu, X, User } from 'lucide-react'
+import { useAuth, useClerk, UserButton } from '@clerk/react'
 
 const Logo = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="160" height="40" role="img" aria-label="INFINITY">
@@ -25,6 +25,7 @@ const navLinks = [
 
 const Navbar = () => {
   const { isSignedIn } = useAuth()
+  const clerk = useClerk()
   const [searchOpen, setSearchOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef(null)
@@ -43,14 +44,12 @@ const Navbar = () => {
     <nav className="w-full bg-[#1E1F5B] pl-2 pr-6 py-3 relative">
       <div className="flex items-center justify-between">
 
-        {/* Column 1 — Logo */}
+        {/* Logo */}
         <div className="flex-1 flex items-center">
-          <Link to="/">
-            <Logo />
-          </Link>
+          <Link to="/"><Logo /></Link>
         </div>
 
-        {/* Column 2 — Nav links (desktop only) */}
+        {/* Nav links (desktop) */}
         <ul className="hidden md:flex gap-8 list-none m-0 p-0">
           {navLinks.map(({ label, to }) => (
             <li key={to}>
@@ -69,7 +68,7 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* Column 3 — Icons */}
+        {/* Icons */}
         <div className="flex-1 flex items-center justify-end gap-4">
 
           {/* Search */}
@@ -102,24 +101,16 @@ const Navbar = () => {
               }}
             />
           ) : (
-            <div className="hidden md:flex items-center gap-2">
-              <Link
-                to="/login"
-                className="text-sm font-semibold text-white hover:text-[#25F08A] transition-colors duration-200"
-              >
-                Login
-              </Link>
-              <span className="text-white/30">|</span>
-              <Link
-                to="/signup"
-                className="text-sm font-semibold px-3 py-1 rounded-full bg-[#25F08A] text-[#1E1F5B] hover:bg-[#25F08A]/80 transition-colors duration-200"
-              >
-                Sign Up
-              </Link>
-            </div>
+            <button
+              onClick={() => clerk.openSignIn()}
+              className="text-white hover:text-[#25F08A] transition-colors duration-200"
+              aria-label="Login"
+            >
+              <User size={20} />
+            </button>
           )}
 
-          {/* mobile only */}
+          {/* Mobile menu */}
           <div className="relative md:hidden mt-1.5" ref={menuRef}>
             <button
               onClick={() => setMenuOpen(o => !o)}
@@ -148,26 +139,14 @@ const Navbar = () => {
                   </li>
                 ))}
                 {!isSignedIn && (
-                  <>
-                    <li>
-                      <Link
-                        to="/login"
-                        onClick={() => setMenuOpen(false)}
-                        className="block px-5 py-3 text-sm font-semibold tracking-wide text-white hover:text-[#25F08A] hover:bg-white/5 transition-colors duration-200 border-t border-white/10"
-                      >
-                        Login
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/signup"
-                        onClick={() => setMenuOpen(false)}
-                        className="block px-5 py-3 text-sm font-semibold tracking-wide text-[#25F08A] hover:bg-white/5 transition-colors duration-200"
-                      >
-                        Sign Up
-                      </Link>
-                    </li>
-                  </>
+                  <li>
+                    <button
+                      onClick={() => { setMenuOpen(false); clerk.openSignIn() }}
+                      className="w-full text-left block px-5 py-3 text-sm font-semibold tracking-wide text-white hover:text-[#25F08A] hover:bg-white/5 transition-colors duration-200 border-t border-white/10"
+                    >
+                      Login / Sign Up
+                    </button>
+                  </li>
                 )}
               </ul>
             )}

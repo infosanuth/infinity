@@ -6,8 +6,13 @@ import { ClerkProvider } from '@clerk/react'
 
 const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
+const localization = {
+  signIn: { start: { title: 'Login to Infinity' } },
+  signUp: { start: { title: 'Sign up to Infinity', actionLink: 'Login' } },
+}
+
 createRoot(document.getElementById('root')).render(
-  <ClerkProvider publishableKey={publishableKey}>
+  <ClerkProvider publishableKey={publishableKey} localization={localization}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
