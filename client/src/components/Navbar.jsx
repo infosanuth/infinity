@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Search, User, Menu, X } from 'lucide-react'
+import { Search, Menu, X } from 'lucide-react'
+import { useAuth, UserButton } from '@clerk/react'
 
 const Logo = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="160" height="40" role="img" aria-label="INFINITY">
@@ -23,6 +24,7 @@ const navLinks = [
 ]
 
 const Navbar = () => {
+  const { isSignedIn } = useAuth()
   const [searchOpen, setSearchOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef(null)
@@ -90,14 +92,32 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Login */}
-          <Link
-            to="/login"
-            className="text-white hover:text-[#25F08A] transition-colors duration-200"
-            aria-label="Login"
-          >
-            <User size={20} />
-          </Link>
+          {/* Auth */}
+          {isSignedIn ? (
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                variables: { colorPrimary: '#25F08A' },
+                elements: { avatarBox: 'w-8 h-8' },
+              }}
+            />
+          ) : (
+            <div className="hidden md:flex items-center gap-2">
+              <Link
+                to="/login"
+                className="text-sm font-semibold text-white hover:text-[#25F08A] transition-colors duration-200"
+              >
+                Login
+              </Link>
+              <span className="text-white/30">|</span>
+              <Link
+                to="/signup"
+                className="text-sm font-semibold px-3 py-1 rounded-full bg-[#25F08A] text-[#1E1F5B] hover:bg-[#25F08A]/80 transition-colors duration-200"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
 
           {/* mobile only */}
           <div className="relative md:hidden mt-1.5" ref={menuRef}>
@@ -127,6 +147,28 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ))}
+                {!isSignedIn && (
+                  <>
+                    <li>
+                      <Link
+                        to="/login"
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-5 py-3 text-sm font-semibold tracking-wide text-white hover:text-[#25F08A] hover:bg-white/5 transition-colors duration-200 border-t border-white/10"
+                      >
+                        Login
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/signup"
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-5 py-3 text-sm font-semibold tracking-wide text-[#25F08A] hover:bg-white/5 transition-colors duration-200"
+                      >
+                        Sign Up
+                      </Link>
+                    </li>
+                  </>
+                )}
               </ul>
             )}
           </div>
