@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Search, Menu, X, User } from 'lucide-react'
+import { Search, Menu, X, User, Ticket } from 'lucide-react'
 import { useAuth, useClerk, UserButton } from '@clerk/react'
 
 const Logo = () => (
@@ -99,7 +99,15 @@ const Navbar = () => {
                 variables: { colorPrimary: '#25F08A' },
                 elements: { avatarBox: 'w-8 h-8' },
               }}
-            />
+            >
+              <UserButton.MenuItems>
+                <UserButton.Link
+                  label="My Bookings"
+                  labelIcon={<Ticket size={16} />}
+                  href="/my-bookings"
+                />
+              </UserButton.MenuItems>
+            </UserButton>
           ) : (
             <button
               onClick={() => clerk.openSignIn()}
