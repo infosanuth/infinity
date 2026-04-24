@@ -1,4 +1,4 @@
-import { Play, Ticket } from 'lucide-react'
+import { Play, Ticket, Clock } from 'lucide-react'
 
 const Hero = () => {
   return (
@@ -13,6 +13,17 @@ const Hero = () => {
         <h1 className="text-4xl md:text-6xl font-black text-[#25F08A] leading-tight mb-4">
             MOON KNIGHT
         </h1>
+
+        {/* Categories & Runtime */}
+        <div className="flex flex-wrap items-center gap-3 mb-5">
+          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/15 text-white tracking-wide">Action-Adventure</span>
+          <span className="text-white/40">|</span>
+          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/15 text-white tracking-wide">Psychological Thriller</span>
+          <span className="flex items-center gap-1.5 text-white/70 text-sm ml-1">
+            <Clock size={14} />
+            2h 31m
+          </span>
+        </div>
 
         <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8">
           From the shadows rises Marvel Moon Knight, a warrior of vengeance and mystery. Reserve your seats now and witness an epic night of action, destiny, and unforgettable power.
