@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Search, Menu, X, User, Ticket } from 'lucide-react'
+import { Search, Menu, X, User, Ticket, Heart } from 'lucide-react'
 import { useAuth, useClerk, UserButton } from '@clerk/react'
 
 const Logo = () => (
@@ -105,6 +105,11 @@ const Navbar = () => {
                   label="My Bookings"
                   labelIcon={<Ticket size={16} />}
                   href="/my-bookings"
+                />
+                <UserButton.Link
+                  label="Favorite"
+                  labelIcon={<Heart size={16} />}
+                  href="/favorites"
                 />
               </UserButton.MenuItems>
             </UserButton>
