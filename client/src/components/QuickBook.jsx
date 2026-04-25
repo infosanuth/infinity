@@ -6,7 +6,7 @@ const Select = ({ placeholder, options, value, onChange }) => (
     <select
       value={value}
       onChange={e => onChange(e.target.value)}
-      className="w-full appearance-none bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#25F08A] cursor-pointer pr-8 transition-colors duration-200"
+      className="w-full appearance-none bg-white/10 border border-white/20 rounded-lg px-4 py-1.5 text-sm text-white focus:outline-none focus:border-[#25F08A] cursor-pointer pr-8 transition-colors duration-200"
     >
       <option value="" className="bg-[#1E1F5B] text-white">{placeholder}</option>
       {options.map(o => (
@@ -29,7 +29,7 @@ const QuickBook = () => {
   }
 
   return (
-    <div className="w-full bg-[#1E1F5B] border-t border-white/10 py-4 px-6 md:px-12">
+    <div className="w-full bg-[#1E1F5B] border-t border-white/10 py-2.5 px-6 md:px-12">
       <div className="flex flex-wrap items-center gap-3">
         <span className="text-sm font-bold text-[#25F08A] whitespace-nowrap tracking-wide">Quick Book</span>
 
@@ -60,7 +60,7 @@ const QuickBook = () => {
 
         <button
           onClick={handleBook}
-          className="bg-[#25F08A] hover:bg-[#25F08A]/80 text-[#1E1F5B] font-bold text-sm px-6 py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
+          className="bg-[#25F08A] hover:bg-[#25F08A]/80 text-[#1E1F5B] font-bold text-sm px-6 py-1.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
         >
           Book
         </button>
