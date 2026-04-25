@@ -3,8 +3,8 @@ import { Play, Ticket, Clock } from 'lucide-react'
 const Hero = () => {
   return (
     <section
-      className="relative w-full flex items-center bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/backgroundimage.jpg')", height: 'calc(100vh - 64px)' }}
+      className="relative w-full flex flex-1 min-h-0 items-center bg-no-repeat"
+      style={{ backgroundImage: "url('/backgroundimage.jpg')", backgroundSize: '100% 100%' }}
     >
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/55" />

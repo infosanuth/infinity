@@ -3,7 +3,7 @@ import QuickBook from '../components/QuickBook'
 
 const Home = () => {
   return (
-    <div className="overflow-hidden">
+    <div className="flex flex-col overflow-hidden" style={{ height: 'calc(100dvh - 64px)' }}>
       <Hero />
       <QuickBook />
     </div>
