@@ -1,6 +1,17 @@
+import { useRef } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import movies from '../assets/assets'
 
 const FeaturedSection = () => {
+
+  const scrollRef = useRef(null)
+
+  const scroll = (dir) => {
+    const el = scrollRef.current
+    if (!el) return
+    el.scrollBy({ left: dir * 300, behavior: 'smooth' })
+  }
+
   return (
     <div className="bg-[#1E1F5B] flex flex-col py-4">
 

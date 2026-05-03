@@ -11,6 +11,10 @@ body {
     background-color: white
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
 .cl-modalBackdrop {
     display: flex !important;
     align-items: center !important;
