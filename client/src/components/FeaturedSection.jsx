@@ -1,15 +1,31 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import movies from '../assets/assets'
 
 const FeaturedSection = () => {
 
   const scrollRef = useRef(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
 
-  const scroll = (dir) => {
+
+  const checkScroll = () => {
     const el = scrollRef.current
     if (!el) return
-    el.scrollBy({ left: dir * 300, behavior: 'smooth' })
+    setCanScrollLeft(el.scrollLeft > 0)
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1)
+  }
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    checkScroll()
+    el.addEventListener('scroll', checkScroll)
+    return () => el.removeEventListener('scroll', checkScroll)
+  }, [])
+
+  const scroll = (dir) => {
+    scrollRef.current?.scrollBy({ left: dir * 300, behavior: 'smooth' })
   }
 
   return (
