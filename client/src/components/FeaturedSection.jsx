@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import movies from '../assets/assets'
 
 const tabs = ['Now Showing', 'Coming Soon', 'Infinity Exclusives']
@@ -9,6 +9,8 @@ const FeaturedSection = () => {
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
   const [activeTab, setActiveTab] = useState(0)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const dropdownRef = useRef(null)
   const drag = useRef({ active: false, startX: 0, scrollLeft: 0 })
 
   const checkScroll = () => {
@@ -28,6 +30,15 @@ const FeaturedSection = () => {
       el.removeEventListener('scroll', checkScroll)
       window.removeEventListener('resize', checkScroll)
     }
+  }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target))
+        setDropdownOpen(false)
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
   const scroll = (dir) => {
@@ -58,12 +69,41 @@ const FeaturedSection = () => {
 
       {/* Tab header */}
       <div className="flex items-center justify-between px-6 md:px-10 pt-5 pb-0 border-b border-white/10">
-        <div className="flex items-end gap-6 md:gap-8">
+
+        {/* Mobile: dropdown */}
+        <div className="relative md:hidden" ref={dropdownRef}>
+          <button
+            onClick={() => setDropdownOpen(o => !o)}
+            className="flex items-center gap-2 pb-3 text-sm font-bold tracking-widest uppercase text-white border-b-2 border-red-500 -mb-px"
+          >
+            {tabs[activeTab]}
+            <ChevronDown size={16} className={`transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {dropdownOpen && (
+            <div className="absolute left-0 top-full mt-1 w-52 bg-[#1a1b4b] border border-white/10 rounded-xl shadow-xl z-20 overflow-hidden">
+              {tabs.map((tab, i) => (
+                <button
+                  key={tab}
+                  onClick={() => { setActiveTab(i); setDropdownOpen(false) }}
+                  className={`w-full text-left px-5 py-3 text-sm font-semibold uppercase tracking-wide transition-colors duration-150 ${
+                    i === activeTab ? 'text-white bg-white/10' : 'text-white/50 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop: inline tabs */}
+        <div className="hidden md:flex items-end gap-8">
           {tabs.map((tab, i) => (
             <button
               key={tab}
               onClick={() => setActiveTab(i)}
-              className={`pb-3 text-xs md:text-sm font-bold tracking-widest uppercase transition-colors duration-200 border-b-2 -mb-px ${
+              className={`pb-3 text-sm font-bold tracking-widest uppercase transition-colors duration-200 border-b-2 -mb-px ${
                 i === activeTab
                   ? 'text-white border-red-500'
                   : 'text-white/35 border-transparent hover:text-white/60'
@@ -73,6 +113,7 @@ const FeaturedSection = () => {
             </button>
           ))}
         </div>
+
         <button className="flex items-center gap-1 text-yellow-400 hover:text-yellow-300 text-xs md:text-sm font-semibold transition-colors duration-200 pb-3">
           View All <ChevronRight size={16} />
         </button>
