@@ -2,10 +2,13 @@ import { useRef, useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import movies from '../assets/assets'
 
+const tabs = ['Now Showing', 'Coming Soon', 'Infinity Exclusives']
+
 const FeaturedSection = () => {
   const scrollRef = useRef(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
+  const [activeTab, setActiveTab] = useState(0)
   const drag = useRef({ active: false, startX: 0, scrollLeft: 0 })
 
   const checkScroll = () => {
@@ -30,7 +33,7 @@ const FeaturedSection = () => {
   const scroll = (dir) => {
     const el = scrollRef.current
     if (!el) return
-    el.scrollBy({ left: dir * 320, behavior: 'smooth' })
+    el.scrollBy({ left: dir * 280, behavior: 'smooth' })
   }
 
   const onMouseDown = (e) => {
@@ -47,29 +50,46 @@ const FeaturedSection = () => {
 
   const onMouseUp = () => {
     drag.current.active = false
-    scrollRef.current.style.cursor = 'grab'
+    if (scrollRef.current) scrollRef.current.style.cursor = 'grab'
   }
 
   return (
-    <div className="bg-[#1E1F5B] flex flex-col py-4">
+    <div className="bg-[#12133a] flex flex-col">
 
-      {/* Header */}
-      <div className="px-6 md:px-12 mb-3 flex items-center gap-3">
-        <span className="w-1 h-5 bg-[#25F08A] rounded-full inline-block" />
-        <h2 className="text-white font-bold text-base tracking-widest uppercase">Now Showing</h2>
+      {/* Tab header */}
+      <div className="flex items-center justify-between px-6 md:px-10 pt-5 pb-0 border-b border-white/10">
+        <div className="flex items-end gap-6 md:gap-8">
+          {tabs.map((tab, i) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(i)}
+              className={`pb-3 text-xs md:text-sm font-bold tracking-widest uppercase transition-colors duration-200 border-b-2 -mb-px ${
+                i === activeTab
+                  ? 'text-white border-red-500'
+                  : 'text-white/35 border-transparent hover:text-white/60'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+        <button className="flex items-center gap-1 text-yellow-400 hover:text-yellow-300 text-xs md:text-sm font-semibold transition-colors duration-200 pb-3">
+          View All <ChevronRight size={16} />
+        </button>
       </div>
 
       {/* Carousel */}
-      <div className="relative flex items-center">
+      <div className="relative">
 
         {/* Left arrow */}
-        <button
-          onClick={() => scroll(-1)}
-          disabled={!canScrollLeft}
-          className="absolute left-2 md:left-4 z-10 w-9 h-9 rounded-full bg-black/60 border border-white/20 flex items-center justify-center text-white hover:bg-[#25F08A] hover:text-[#1E1F5B] transition-colors duration-200 disabled:opacity-30 disabled:cursor-default"
-        >
-          <ChevronLeft size={20} />
-        </button>
+        {canScrollLeft && (
+          <button
+            onClick={() => scroll(-1)}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/70 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors duration-200"
+          >
+            <ChevronLeft size={18} />
+          </button>
+        )}
 
         {/* Movie list */}
         <div
@@ -78,31 +98,31 @@ const FeaturedSection = () => {
           onMouseMove={onMouseMove}
           onMouseUp={onMouseUp}
           onMouseLeave={onMouseUp}
-          className="hide-scrollbar flex gap-3 overflow-x-auto px-12 md:px-16 py-2 items-center select-none"
+          className="hide-scrollbar flex overflow-x-auto select-none"
           style={{ cursor: 'grab', msOverflowStyle: 'none' }}
         >
           {movies.map((movie) => (
             <div
               key={movie.id}
-              className="relative shrink-0 w-36 sm:w-44 md:w-48 rounded-xl overflow-hidden cursor-pointer group"
+              className="relative shrink-0 w-60 md:w-72 lg:w-80 overflow-hidden"
               style={{ aspectRatio: '2/3' }}
             >
               <img
                 src={movie.poster}
                 alt={movie.title}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-full object-cover"
                 draggable={false}
               />
 
               {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/10 to-transparent" />
 
               {/* Text */}
-              <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
-                <p className="text-white font-bold text-xs leading-tight uppercase tracking-wide line-clamp-2">
+              <div className="absolute bottom-0 left-0 right-0 px-4 pb-5">
+                <p className="text-white font-bold text-xs md:text-sm leading-snug uppercase tracking-wide line-clamp-2">
                   {movie.title}
                 </p>
-                <p className="text-[#25F08A] text-[10px] font-semibold tracking-widest mt-1 uppercase">
+                <p className="text-[#25F08A] text-[10px] font-semibold tracking-widest mt-1.5 uppercase">
                   In Theaters Now
                 </p>
               </div>
@@ -111,13 +131,14 @@ const FeaturedSection = () => {
         </div>
 
         {/* Right arrow */}
-        <button
-          onClick={() => scroll(1)}
-          disabled={!canScrollRight}
-          className="absolute right-2 md:right-4 z-10 w-9 h-9 rounded-full bg-black/60 border border-white/20 flex items-center justify-center text-white hover:bg-[#25F08A] hover:text-[#1E1F5B] transition-colors duration-200 disabled:opacity-30 disabled:cursor-default"
-        >
-          <ChevronRight size={20} />
-        </button>
+        {canScrollRight && (
+          <button
+            onClick={() => scroll(1)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/70 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors duration-200"
+          >
+            <ChevronRight size={18} />
+          </button>
+        )}
       </div>
 
     </div>
