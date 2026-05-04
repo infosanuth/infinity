@@ -6,6 +6,7 @@ const FeaturedSection = () => {
   const scrollRef = useRef(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
+  const drag = useRef({ active: false, startX: 0, scrollLeft: 0 })
 
   const checkScroll = () => {
     const el = scrollRef.current
@@ -32,6 +33,23 @@ const FeaturedSection = () => {
     el.scrollBy({ left: dir * 320, behavior: 'smooth' })
   }
 
+  const onMouseDown = (e) => {
+    drag.current = { active: true, startX: e.pageX - scrollRef.current.offsetLeft, scrollLeft: scrollRef.current.scrollLeft }
+    scrollRef.current.style.cursor = 'grabbing'
+  }
+
+  const onMouseMove = (e) => {
+    if (!drag.current.active) return
+    e.preventDefault()
+    const x = e.pageX - scrollRef.current.offsetLeft
+    scrollRef.current.scrollLeft = drag.current.scrollLeft - (x - drag.current.startX)
+  }
+
+  const onMouseUp = () => {
+    drag.current.active = false
+    scrollRef.current.style.cursor = 'grab'
+  }
+
   return (
     <div className="bg-[#1E1F5B] flex flex-col py-4">
 
@@ -56,8 +74,12 @@ const FeaturedSection = () => {
         {/* Movie list */}
         <div
           ref={scrollRef}
-          className="hide-scrollbar flex gap-3 overflow-x-auto scroll-smooth px-12 md:px-16 py-2 items-center"
-          style={{ msOverflowStyle: 'none' }}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+          onMouseLeave={onMouseUp}
+          className="hide-scrollbar flex gap-3 overflow-x-auto px-12 md:px-16 py-2 items-center select-none"
+          style={{ cursor: 'grab', msOverflowStyle: 'none' }}
         >
           {movies.map((movie) => (
             <div
