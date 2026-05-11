@@ -166,7 +166,7 @@ const FeaturedSection = () => {
 
               {/* Hover overlay */}
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-4">
-                <p className="text-white font-bold text-sm tracking-widest uppercase">See More</p>
+                <p onClick={() => navigate(`/movies/${movie.id}`)} className="text-white font-bold text-sm tracking-widest uppercase cursor-pointer hover:text-[#25F08A] transition-colors duration-200">See More</p>
                 <button className="px-8 py-2.5 border-2 border-white text-white text-sm font-bold tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-200">
                   Buy Tickets
                 </button>
