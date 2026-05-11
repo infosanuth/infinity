@@ -1,17 +1,4 @@
 const movies = [
-
-    {
-        id: 1,
-        title: "The Dark Knight",
-        poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
-        runtime: "2h 32m"
-    },
-    {
-        id: 2,
-        title: "Avengers: Endgame",
-        poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
-        runtime: "3h 1m"
-    },
     {
         id: 3,
         title: "Joker",
@@ -31,36 +18,6 @@ const movies = [
         runtime: "2h 16m"
     },
     {
-        id: 6,
-        title: "Spider-Man: No Way Home",
-        poster: "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-        runtime: "2h 28m"
-    },
-    {
-        id: 7,
-        title: "Guardians of the Galaxy",
-        poster: "https://image.tmdb.org/t/p/w500/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg",
-        runtime: "2h 1m"
-    },
-    {
-        id: 8,
-        title: "Black Panther",
-        poster: "https://image.tmdb.org/t/p/w500/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",
-        runtime: "2h 14m"
-    },
-    {
-        id: 9,
-        title: "Thor: Ragnarok",
-        poster: "https://image.tmdb.org/t/p/w500/rzRwTcFvttcN1ZpX2xv4j3tSdJu.jpg",
-        runtime: "2h 10m"
-    },
-    {
-        id: 10,
-        title: "Avatar",
-        poster: "https://image.tmdb.org/t/p/w500/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
-        runtime: "2h 42m"
-    },
-    {
         id: 11,
         title: "John Wick",
         poster: "https://image.tmdb.org/t/p/w500/fZPSd91yGE9fCcCe6OoQr6E3Bev.jpg",
@@ -72,6 +29,55 @@ const movies = [
         poster: "https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",
         runtime: "2h 22m"
     },
+    {
+        id: 13,
+        title: "Inception",
+        poster: "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
+        runtime: "2h 28m"
+    },
+    {
+        id: 18,
+        title: "Deadpool",
+        poster: "https://image.tmdb.org/t/p/w500/fSRb7vyIP8rQpL0I47P3qUsEKX3.jpg",
+        runtime: "1h 48m"
+    },
+    {
+        id: 22,
+        title: "The Wolf of Wall Street",
+        poster: "https://image.tmdb.org/t/p/w500/34m2tygAYBGqA9MXKhRDtzYd4MR.jpg",
+        runtime: "3h"
+    },
+    {
+        id: 26,
+        title: "Top Gun: Maverick",
+        poster: "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg",
+        runtime: "2h 11m"
+    },
+    {
+        id: 27,
+        title: "Dune",
+        poster: "https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
+        runtime: "2h 35m"
+    },
+    {
+        id: 30,
+        title: "The Godfather",
+        poster: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+        runtime: "2h 55m"
+    },
+    {
+        id: 31,
+        title: "Pulp Fiction",
+        poster: "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
+        runtime: "2h 34m"
+    },
+    {
+        id: 35,
+        title: "Parasite",
+        poster: "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+        runtime: "2h 12m"
+    },
+
 
 ];
 

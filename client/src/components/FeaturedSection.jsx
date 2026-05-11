@@ -1,10 +1,13 @@
 import { useRef, useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import movies from '../assets/assets'
+import { useNavigate } from 'react-router-dom'
 
 const tabs = ['Now Showing', 'Coming Soon', 'Infinity Exclusives']
 
+
 const FeaturedSection = () => {
+
   const scrollRef = useRef(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
@@ -12,6 +15,8 @@ const FeaturedSection = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
   const drag = useRef({ active: false, startX: 0, scrollLeft: 0 })
+
+  const navigate = useNavigate();
 
   const checkScroll = () => {
     const el = scrollRef.current
@@ -114,7 +119,7 @@ const FeaturedSection = () => {
           ))}
         </div>
 
-        <button className="flex items-center gap-1 text-yellow-400 hover:text-yellow-300 text-xs md:text-sm font-semibold transition-colors duration-200 pb-3">
+        <button onClickCapture={()=>navigate('/movies')} className="flex items-center gap-1 text-[#25F08A]  hover:text-[#25F08A] text-xs md:text-sm font-semibold transition-colors duration-200 pb-3 cursor-auto">
           View All <ChevronRight size={16} />
         </button>
       </div>
