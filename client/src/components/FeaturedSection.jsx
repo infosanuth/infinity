@@ -150,21 +150,30 @@ const FeaturedSection = () => {
           {movies.map((movie) => (
             <div
               key={movie.id}
-              className="relative shrink-0 w-60 md:w-72 lg:w-80 overflow-hidden"
+              className="relative shrink-0 w-60 md:w-72 lg:w-80 overflow-hidden group"
               style={{ aspectRatio: '2/3' }}
             >
+              {/* Poster */}
               <img
                 src={movie.poster}
                 alt={movie.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
                 draggable={false}
               />
 
-              {/* Gradient overlay */}
+              {/* Bottom gradient (always visible) */}
               <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/10 to-transparent" />
 
-              {/* Text */}
-              <div className="absolute bottom-0 left-0 right-0 px-4 pb-5">
+              {/* Hover overlay */}
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-4">
+                <p className="text-white font-bold text-sm tracking-widest uppercase">See More</p>
+                <button className="px-8 py-2.5 border-2 border-white text-white text-sm font-bold tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-200">
+                  Buy Tickets
+                </button>
+              </div>
+
+              {/* Title (hidden on hover) */}
+              <div className="absolute bottom-0 left-0 right-0 px-4 pb-5 transition-opacity duration-300 group-hover:opacity-0">
                 <p className="text-white font-bold text-xs md:text-sm leading-snug uppercase tracking-wide line-clamp-2">
                   {movie.title}
                 </p>
