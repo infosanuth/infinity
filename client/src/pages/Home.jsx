@@ -1,3 +1,4 @@
+import Download from '../components/Download'
 import FeaturedSection from '../components/FeaturedSection'
 import Hero from '../components/Hero'
 import QuickBook from '../components/QuickBook'
@@ -12,6 +13,7 @@ const Home = () => {
       </div>
       <FeaturedSection />
       <TrailersSection/>
+      <Download/>
     </div>
   )
 }
