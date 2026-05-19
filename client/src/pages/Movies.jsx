@@ -33,7 +33,7 @@ function MovieCard({ movie }) {
           </button>
         </div>
       </div>
-
+d
       {/* Info below poster */}
       <div className="mt-2.5 px-0.5">
         <h3 className="text-white font-bold text-sm uppercase tracking-wide leading-snug line-clamp-1 mb-1">
