@@ -151,6 +151,18 @@ const MovieDetails = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Booking */}
+              <button onClick={handleBook} disabled={!canBook}
+                className={`mt-1 w-fit px-8 py-2.5 text-sm font-bold uppercase tracking-widest rounded-lg transition-all duration-200 ${
+                  canBook
+                    ? 'bg-[#25F08A] text-[#1E1F5B] hover:bg-[#25F08A]/80'
+                    : 'bg-white/8 text-white/25 cursor-not-allowed'
+                }`}
+              >
+                Book Tickets
+              </button>
+
             </div>
           </div>
         </div>
