@@ -167,6 +167,28 @@ const MovieDetails = () => {
           </div>
         </div>
       </div>
+
+      {/* Trailer */}
+      {embedUrl && (
+        <div className="px-6 md:px-12 py-10 border-t border-white/10">
+          <h2 className="text-white text-xs font-bold uppercase tracking-widest mb-5">
+            Official Trailer
+          </h2>
+          <div
+            className="max-w-3xl rounded-xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/10"
+            style={{ aspectRatio: '16/9' }}
+          >
+            <iframe
+              src={embedUrl}
+              title={`${movie.title} trailer`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }
