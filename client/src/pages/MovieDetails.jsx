@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ChevronLeft, Clock, Calendar, Play } from 'lucide-react'
+import { ChevronLeft, Clock, Calendar, Play, Ticket } from 'lucide-react'
 import movies from '../assets/assets'
 
 const SHOW_TIMES = ['10:00 AM', '1:00 PM', '4:00 PM', '7:00 PM', '10:00 PM']
@@ -11,7 +11,8 @@ const generateDates = () => {
     const d = new Date(today)
     d.setDate(today.getDate() + i)
     return {
-      label: i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+      day:   i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : d.toLocaleDateString('en-US', { weekday: 'short' }),
+      date:  d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       value: d.toISOString().split('T')[0],
     }
   })
@@ -58,12 +59,12 @@ const MovieDetails = () => {
         {/* Blurred poster background */}
         <div
           className="absolute inset-0 bg-cover bg-center scale-110"
-          style={{ backgroundImage: `url(${movie.poster})`, filter: 'blur(22px) brightness(0.2)' }}
+          style={{ backgroundImage: `url(${movie.poster})`, filter: 'blur(24px) brightness(0.18)' }}
         />
-        <div className="absolute inset-0 bg-linear-to-b from-[#0a0b2e]/30 via-transparent to-[#0a0b2e]" />
+        <div className="absolute inset-0 bg-linear-to-b from-[#0a0b2e]/40 via-transparent to-[#0a0b2e]" />
 
         {/* Content */}
-        <div className="relative z-10 px-6 md:px-12 pt-8 pb-14">
+        <div className="relative z-10 px-6 md:px-12 pt-8 pb-16">
 
           <button
             onClick={() => navigate('/movies')}
@@ -89,24 +90,26 @@ const MovieDetails = () => {
                   alt={movie.title}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-200" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="flex items-center justify-center w-13 h-13 rounded-full bg-white/15 border border-white/30 backdrop-blur-sm group-hover:bg-[#25F08A]/20 group-hover:border-[#25F08A]/60 transition-all duration-200">
-                    <Play size={20} className="text-white group-hover:text-[#25F08A] transition-colors duration-200 ml-0.5" fill="currentColor" />
-                  </div>
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-colors duration-200" />
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/55 border border-white/15 backdrop-blur-sm group-hover:bg-[#25F08A]/15 group-hover:border-[#25F08A]/40 transition-all duration-200 whitespace-nowrap">
+                  <Play size={11} fill="currentColor" className="text-white group-hover:text-[#25F08A] transition-colors duration-200" />
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-white group-hover:text-[#25F08A] transition-colors duration-200">
+                    Watch Trailer
+                  </span>
                 </div>
               </a>
-              {movie.description && (
-                <p className="mt-4 text-white/50 text-xs leading-relaxed">
-                  {movie.description}
-                </p>
-              )}
             </div>
 
             {/* Info */}
-            <div className="flex flex-col gap-5 pt-1">
+            <div className="flex flex-col gap-5 pt-1 flex-1">
 
-              {/* Title + meta */}
+              {/* Badge */}
+              <span className="inline-flex w-fit items-center gap-1.5 px-3 py-1 rounded-full bg-[#25F08A]/10 border border-[#25F08A]/25 text-[#25F08A] text-[10px] font-bold uppercase tracking-widest">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#25F08A] animate-pulse" />
+                In Theaters Now
+              </span>
+
+              {/* Title + runtime */}
               <div>
                 <h1 className="text-white text-2xl md:text-4xl font-extrabold uppercase tracking-widest leading-tight mb-3">
                   {movie.title}
@@ -117,13 +120,18 @@ const MovieDetails = () => {
                 </div>
               </div>
 
-              <span className="inline-flex w-fit items-center px-3 py-1 rounded-full bg-[#25F08A]/10 border border-[#25F08A]/25 text-[#25F08A] text-[10px] font-bold uppercase tracking-widest">
-                In Theaters Now
-              </span>
+              {/* Description */}
+              {movie.description && (
+                <p className="text-white/55 text-sm leading-relaxed max-w-md">
+                  {movie.description}
+                </p>
+              )}
+
+              <div className="h-px bg-white/8 max-w-md" />
 
               {/* Date picker */}
               <div>
-                <p className="flex items-center gap-1.5 text-white/40 text-[10px] font-bold uppercase tracking-widest mb-2.5">
+                <p className="flex items-center gap-1.5 text-white/40 text-[10px] font-bold uppercase tracking-widest mb-3">
                   <Calendar size={12} />
                   Select Date
                 </p>
@@ -132,13 +140,14 @@ const MovieDetails = () => {
                     <button
                       key={d.value}
                       onClick={() => setSelectedDate(d.value)}
-                      className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide border transition-colors duration-150 ${
+                      className={`flex flex-col items-center px-3.5 py-2 rounded-lg border transition-all duration-150 ${
                         selectedDate === d.value
                           ? 'bg-[#25F08A] border-[#25F08A] text-[#1E1F5B]'
                           : 'bg-white/5 border-white/15 text-white/55 hover:border-white/30 hover:text-white'
                       }`}
                     >
-                      {d.label}
+                      <span className="text-[9px] font-bold uppercase tracking-widest leading-none mb-1">{d.day}</span>
+                      <span className="text-[11px] font-semibold">{d.date}</span>
                     </button>
                   ))}
                 </div>
@@ -146,15 +155,17 @@ const MovieDetails = () => {
 
               {/* Time picker */}
               <div>
-                <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-2.5"> Select Showtime</p>
+                <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-3">
+                  Select Showtime
+                </p>
                 <div className="flex flex-wrap gap-2">
                   {SHOW_TIMES.map(t => (
                     <button
                       key={t}
                       onClick={() => setSelectedTime(t)}
-                      className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide border transition-colors duration-150 ${
+                      className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide border transition-all duration-150 ${
                         selectedTime === t
-                          ? 'bg-red-500 border-red-500 text-white'
+                          ? 'bg-[#25F08A] border-[#25F08A] text-[#1E1F5B]'
                           : 'bg-white/5 border-white/15 text-white/55 hover:border-white/30 hover:text-white'
                       }`}
                     >
@@ -164,14 +175,17 @@ const MovieDetails = () => {
                 </div>
               </div>
 
-              {/* Booking */}
-              <button onClick={handleBook} disabled={!canBook}
-                className={`mt-1 w-fit px-8 py-2.5 text-sm font-bold uppercase tracking-widest rounded-lg transition-all duration-200 ${
+              {/* Book button */}
+              <button
+                onClick={handleBook}
+                disabled={!canBook}
+                className={`mt-1 flex items-center gap-2 w-fit px-8 py-2.5 text-sm font-bold uppercase tracking-widest rounded-lg transition-all duration-200 ${
                   canBook
                     ? 'bg-[#25F08A] text-[#1E1F5B] hover:bg-[#25F08A]/80'
                     : 'bg-white/8 text-white/25 cursor-not-allowed'
                 }`}
               >
+                <Ticket size={15} />
                 Book Tickets
               </button>
 
