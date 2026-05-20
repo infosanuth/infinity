@@ -2,7 +2,6 @@ import Download from '../components/Download'
 import FeaturedSection from '../components/FeaturedSection'
 import Hero from '../components/Hero'
 import QuickBook from '../components/QuickBook'
-import TrailersSection from '../components/TrailersSection'
 
 const Home = () => {
   return (
@@ -12,7 +11,6 @@ const Home = () => {
         <QuickBook />
       </div>
       <FeaturedSection />
-      <TrailersSection/>
       <Download/>
     </div>
   )
