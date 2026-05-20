@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ChevronLeft, Clock, Calendar } from 'lucide-react'
+import { ChevronLeft, Clock, Calendar, Play } from 'lucide-react'
 import movies from '../assets/assets'
 
 const SHOW_TIMES = ['10:00 AM', '1:00 PM', '4:00 PM', '7:00 PM', '10:00 PM']
@@ -18,11 +18,6 @@ const generateDates = () => {
 }
 
 const SHOW_DATES = generateDates()
-
-const getEmbedUrl = (trailerUrl) => {
-  const match = trailerUrl?.match(/[?&]v=([^&]+)/)
-  return match ? `https://www.youtube.com/embed/${match[1]}` : null
-}
 
 const MovieDetails = () => {
   const { id } = useParams()
@@ -47,7 +42,6 @@ const MovieDetails = () => {
     )
   }
 
-  const embedUrl = getEmbedUrl(movie.trailer)
   const canBook = selectedDate && selectedTime
 
   const handleBook = () => {
@@ -81,14 +75,32 @@ const MovieDetails = () => {
 
           <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
 
-            {/* Poster */}
-            <div className="shrink-0 w-44 md:w-60 rounded-xl overflow-hidden shadow-2xl shadow-black/70 ring-1 ring-white/10">
-              <img
-                src={movie.poster}
-                alt={movie.title}
-                className="w-full h-full object-cover"
+            {/* Poster — click to watch trailer */}
+            <div className="shrink-0 w-44 md:w-60">
+              <a
+                href={movie.trailer}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative block rounded-xl overflow-hidden shadow-2xl shadow-black/70 ring-1 ring-white/10"
                 style={{ aspectRatio: '2/3' }}
-              />
+              >
+                <img
+                  src={movie.poster}
+                  alt={movie.title}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-200" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex items-center justify-center w-13 h-13 rounded-full bg-white/15 border border-white/30 backdrop-blur-sm group-hover:bg-[#25F08A]/20 group-hover:border-[#25F08A]/60 transition-all duration-200">
+                    <Play size={20} className="text-white group-hover:text-[#25F08A] transition-colors duration-200 ml-0.5" fill="currentColor" />
+                  </div>
+                </div>
+              </a>
+              {movie.description && (
+                <p className="mt-4 text-white/50 text-xs leading-relaxed">
+                  {movie.description}
+                </p>
+              )}
             </div>
 
             {/* Info */}
@@ -167,27 +179,6 @@ const MovieDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* Trailer */}
-      {embedUrl && (
-        <div className="px-6 md:px-12 py-10 border-t border-white/10">
-          <h2 className="text-white text-xs font-bold uppercase tracking-widest mb-5">
-            Official Trailer
-          </h2>
-          <div
-            className="max-w-3xl rounded-xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/10"
-            style={{ aspectRatio: '16/9' }}
-          >
-            <iframe
-              src={embedUrl}
-              title={`${movie.title} trailer`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-            />
-          </div>
-        </div>
-      )}
 
     </div>
   )
