@@ -74,10 +74,15 @@ const MovieDetails = () => {
             All Movies
           </button>
 
-          <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+          {/* Title — above poster */}
+          <h1 className="text-white text-2xl md:text-4xl font-extrabold uppercase tracking-widest leading-tight mb-8">
+            {movie.title}
+          </h1>
+
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-stretch">
 
             {/* Poster — click to watch trailer */}
-            <div className="shrink-0 w-44 md:w-60">
+            <div className="shrink-0 w-40 md:w-52 flex flex-col">
               <a
                 href={movie.trailer}
                 target="_blank"
@@ -98,27 +103,14 @@ const MovieDetails = () => {
                   </span>
                 </div>
               </a>
+              <span className="mt-auto pt-3 inline-flex w-full justify-center items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#25F08A]/10 border border-[#25F08A]/25 text-[#25F08A] text-[10px] font-bold uppercase tracking-widest">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#25F08A] animate-pulse" />
+                In Theaters Now
+              </span>
             </div>
 
             {/* Info */}
             <div className="flex flex-col gap-5 pt-1 flex-1">
-
-              {/* Badge */}
-              <span className="inline-flex w-fit items-center gap-1.5 px-3 py-1 rounded-full bg-[#25F08A]/10 border border-[#25F08A]/25 text-[#25F08A] text-[10px] font-bold uppercase tracking-widest">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#25F08A] animate-pulse" />
-                In Theaters Now
-              </span>
-
-              {/* Title + runtime */}
-              <div>
-                <h1 className="text-white text-2xl md:text-4xl font-extrabold uppercase tracking-widest leading-tight mb-3">
-                  {movie.title}
-                </h1>
-                <div className="flex items-center gap-2 text-white/40 text-xs font-semibold uppercase tracking-widest">
-                  <Clock size={13} />
-                  {movie.runtime}
-                </div>
-              </div>
 
               {/* Description */}
               {movie.description && (
@@ -126,6 +118,12 @@ const MovieDetails = () => {
                   {movie.description}
                 </p>
               )}
+
+              {/* Runtime */}
+              <div className="flex items-center gap-2 text-white/40 text-xs font-semibold uppercase tracking-widest">
+                <Clock size={13} />
+                {movie.runtime}
+              </div>
 
               <div className="h-px bg-white/8 max-w-md" />
 
@@ -179,7 +177,7 @@ const MovieDetails = () => {
               <button
                 onClick={handleBook}
                 disabled={!canBook}
-                className={`mt-1 flex items-center gap-2 w-fit px-8 py-2.5 text-sm font-bold uppercase tracking-widest rounded-lg transition-all duration-200 ${
+                className={`mt-auto flex items-center gap-2 w-fit px-8 py-2.5 text-sm font-bold uppercase tracking-widest rounded-lg transition-all duration-200 ${
                   canBook
                     ? 'bg-[#25F08A] text-[#1E1F5B] hover:bg-[#25F08A]/80'
                     : 'bg-white/8 text-white/25 cursor-not-allowed'
