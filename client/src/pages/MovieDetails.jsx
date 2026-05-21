@@ -184,7 +184,7 @@ const MovieDetails = () => {
                 }`}
               >
                 <Ticket size={15} />
-                Book Tickets
+                {canBook ? 'Book Tickets' : 'Select Date & Time'}
               </button>
 
             </div>
